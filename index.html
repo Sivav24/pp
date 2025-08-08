@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Memories & Thanks – Raksha Bandhan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    @keyframes gradientBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(-45deg, #fceabb, #f8b500, #ec3b66, #445a72);
+      background-size: 400% 400%;
+      animation: gradientBackground 20s ease infinite;
+      color: #23395d;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 780px;
+      margin: 3rem auto 4rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(80, 30, 30, 0.09);
+      padding: 2.2rem 1.4rem 3.2rem;
+      animation: fadeIn 1.3s ease forwards;
+      position: relative;
+      user-select: none;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.98);}
+      to {opacity: 1;}
+    }
+    .header {
+      text-align: center;
+      user-select: none;
+    }
+    .header h1 {
+      color: #ec3b66;
+      letter-spacing: 1px;
+      margin-bottom: 0.6rem;
+      animation: bounce 1s;
+    }
+    @keyframes bounce {
+      0%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-18px);}
+    }
+    .header h2 {
+      color: #577590;
+      font-weight: 400;
+    }
+    .greeting {
+      font-size: 1.10rem;
+      background: #ffdada;
+      border-radius: 9px;
+      box-shadow: 0 2px 11px rgba(236, 59, 102, 0.07);
+      padding: 1.2rem 1rem;
+      margin: 1.5rem 0 2.4rem;
+      animation: fadeIn 2s;
+      user-select: text;
+    }
+
+    /* Simple slider styles */
+    .slider {
+      position: relative;
+      max-width: 600px;
+      margin: 2rem auto 1rem;
+      overflow: hidden;
+      border-radius: 14px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.12);
+      background: #fff;
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      width: 100%;
+    }
+    .slide {
+      min-width: 100%;
+      box-sizing: border-box;
+      cursor: pointer;
+      perspective: 1200px;
+      position: relative;
+      height: 300px;
+    }
+    /* Card flip effect container */
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(60, 20, 60, 0.08);
+      overflow: hidden;
+    }
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 14px;
+      user-select: none;
+    }
+    .card-front img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      transition: transform 0.7s ease;
+      display: block;
+    }
+    .slide:hover .card-front img {
+      transform: scale(1.05) rotate(-3deg);
+    }
+    .caption-front {
+      text-align: center;
+      color: #f8b500;
+      background: #fff7e6;
+      font-size: 1.1rem;
+      padding: 0.8rem 0.4rem;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      font-style: italic;
+    }
+    .card-back {
+      background: #ec3b66;
+      color: white;
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    /* Navigation buttons */
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      background: rgba(236, 59, 102, 0.8);
+      border: none;
+      font-size: 2rem;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      z-index: 10;
+      outline: none;
+      box-shadow: 0 2px 8px rgba(236, 59, 102, 0.2);
+      transition: background 0.18s;
+      user-select: none;
+    }
+    .prev:hover, .next:hover {
+      background: #f8b500;
+      color: #333;
+    }
+    .prev {
+      left: 15px;
+    }
+    .next {
+      right: 15px;
+    }
+
+    /* Dots */
+    .dots {
+      text-align: center;
+      margin-top: 1rem;
+      user-select: none;
+    }
+    .dot {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin: 0 6px;
+      background: #f8b500bb;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
+    .dot.active {
+      background: #ec3b66;
+    }
+
+    /* Lightbox */
+    #lightbox {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      user-select: none;
+    }
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(230, 59, 102, 0.7);
+    }
+    #lightbox .close-btn {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: #ec3b66;
+      color: white;
+      font-size: 2.4rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(236, 59, 102, 0.6);
+      transition: background 0.25s;
+    }
+    #lightbox .close-btn:hover {
+      background: #f8b500;
+      color: #333;
+    }
+
+    .footer {
+      text-align: center;
+      color: #bbb;
+      font-size: 1.03rem;
+      margin-top: 3rem;
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 650px) {
+      .slider {
+        max-width: 90vw;
+      }
+      .slide {
+        height: 260px;
+      }
+      .card-front img {
+        height: 220px;
+      }
+      .caption-front {
+        font-size: 1rem;
+      }
+      .prev, .next {
+        width: 40px;
+        height: 40px;
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" aria-label="Raksha Bandhan memories and greetings page">
+    <div class="header">
+      <h1>Thank You, Sister ♥️</h1>
+      <h2>Happy Raksha Bandhan!</h2>
+    </div>
+    <div class="greeting">
+      Dear Sister,<br /><br />
+      This Raksha Bandhan, I want to thank you for being my greatest support, source of laughter, and co-coder of life's adventures. You've helped me debug problems, cheered my successes, and made every moment a cherished memory.<br />
+      Click on a memory card to flip it. Click the image to view it larger!
+    </div>
+
+    <div class="slider" aria-label="Memories image slider">
+      <div class="slides" id="slides">
+        <!-- Slides inserted by JS -->
+      </div>
+      <button class="prev" id="prevBtn" aria-label="Previous memory">&#10094;</button>
+      <button class="next" id="nextBtn" aria-label="Next memory">&#10095;</button>
+    </div>
+
+    <div class="dots" id="dots" aria-label="Memory slide navigation dots"></div>
+
+    <div class="footer">Made with 💻 by your B.Tech CSE brother</div>
+  </div>
+
+  <!-- Lightbox modal -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged memory image">
+    <button class="close-btn" aria-label="Close lightbox">&times;</button>
+    <img src="" alt="Enlarged memory" />
+  </div>
+
+  <script>
+    const slidesData = [
+      {
+        src: "images/w.jpg",
+        caption: 'Our childhood fun moments',
+        backText: 'Remembering all the laughter and games we shared as kids.'
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
+        caption: 'College celebration together',
+        backText: 'Those victorious moments after tough exams and projects!'
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1465101162946-4377e57745c3?auto=format&fit=crop&w=600&q=80',
+        caption: 'Family trip snapshot',
+        backText: 'Exploring new places with family, making lifelong memories.'
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80',
+        caption: 'Raksha Bandhan last year',
+        backText: 'Celebrating the bond that keeps us close every year.'
+      }
+    ];
+
+    const slidesContainer = document.getElementById('slides');
+    const dotsContainer = document.getElementById('dots');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentIndex = 0;
+
+    // Create slides with card flip
+    slidesData.forEach((slide, index) => {
+      const slideDiv = document.createElement('div');
+      slideDiv.classList.add('slide');
+      if (index === 0) slideDiv.classList.add('active');
+
+      const cardDiv = document.createElement('div');
+      cardDiv.classList.add('card');
+
+      // Front
+      const cardFront = document.createElement('div');
+      cardFront.classList.add('card-front');
+      cardFront.setAttribute('aria-label', slide.caption);
+
+      const img = document.createElement('img');
+      img.src = slide.src;
+      img.alt = slide.caption;
+      img.tabIndex = 0;
+
+      const caption = document.createElement('div');
+      caption.className = 'caption-front';
+      caption.textContent = slide.caption;
+
+      cardFront.appendChild(img);
+      cardFront.appendChild(caption);
+
+      // Back
+      const cardBack = document.createElement('div');
+      cardBack.classList.add('card-back');
+      cardBack.textContent = slide.backText;
+
+      cardDiv.appendChild(cardFront);
+      cardDiv.appendChild(cardBack);
+
+      slideDiv.appendChild(cardDiv);
+      slidesContainer.appendChild(slideDiv);
+
+      // Flip card on click
+      cardDiv.addEventListener('click', () => {
+        cardDiv.classList.toggle('flipped');
+      });
+
+      // Open lightbox on image click
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLightbox(slide.src, slide.caption);
+      });
+
+      img.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(slide.src, slide.caption);
+        }
+      });
+    });
+
+    // Create dots
+    slidesData.forEach((_, idx) => {
+      const dot = document.createElement('span');
+      dot.classList.add('dot');
+      if(idx === 0) dot.classList.add('active');
+      dot.setAttribute('role', 'button');
+      dot.setAttribute('tabindex', 0);
+      dot.setAttribute('aria-label', `Go to slide ${idx+1}`);
+      dot.dataset.index = idx;
+      dotsContainer.appendChild(dot);
+      dot.addEventListener('click', () => showSlide(idx));
+      dot.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          showSlide(idx);
+        }
+      });
+    });
+
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index) {
+      if(index < 0) index = slides.length-1;
+      if(index >= slides.length) index = 0;
+
+      slides[currentIndex].classList.remove('active');
+      const card = slides[currentIndex].querySelector('.card');
+      if(card.classList.contains('flipped')) card.classList.remove('flipped');
+
+      dotsContainer.children[currentIndex].classList.remove('active');
+
+      currentIndex = index;
+
+      slides[currentIndex].classList.add('active');
+      dotsContainer.children[currentIndex].classList.add('active');
+    }
+
+    prevBtn.onclick = () => showSlide(currentIndex-1);
+    nextBtn.onclick = () => showSlide(currentIndex+1);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if(document.activeElement.tagName.toLowerCase() === 'input') return;
+      switch(e.key) {
+        case 'ArrowLeft': showSlide(currentIndex-1); break;
+        case 'ArrowRight': showSlide(currentIndex+1); break;
+        case 'Escape': closeLightbox(); break;
+      }
+    });
+
+    // Lightbox code
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const closeBtn = lightbox.querySelector('.close-btn');
+
+    function openLightbox(src, alt) {
+      lightbox.style.display = 'flex';
+      lightboxImg.src = src;
+      lightboxImg.alt = alt;
+    }
+    function closeLightbox() {
+      lightbox.style.display = 'none';
+      lightboxImg.src = '';
+    }
+
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if(e.target === lightbox) closeLightbox();
+    });
+  </script>
+</body>
+</html>
